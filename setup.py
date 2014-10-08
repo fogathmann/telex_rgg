@@ -14,13 +14,10 @@ setup(name='telex_rgg',
       author_email='fogathmann at gmail.com',
       license="MIT",
       packages=find_packages(),
-      package_data={'': ["*.zcml"]},
+      package_data={'': ["*.zcml", "*.mak"]},
       include_package_data=True,
       zip_safe=False,
       install_requires=['telex'],
-      dependency_links=
-      ['https://github.com/gathmann/telex_rgg/tarball/master#egg=telex_rgg-dev',
-       ],
       entry_points=\
       """
       [telex.plugins]
