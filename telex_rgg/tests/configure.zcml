@@ -1,0 +1,6 @@
+<configure xmlns="http://pylonshq.com/pyramid">
+
+    <!-- Include telex_rgg package. -->
+    <include package="telex_rgg.includes" />
+
+</configure>

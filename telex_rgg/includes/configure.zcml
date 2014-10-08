@@ -1,0 +1,11 @@
+<configure xmlns="http://pylonshq.com/pyramid">
+    <include package="telex.includes" />
+    
+<!--    <collection_view
+        for="telex.interfaces.ICommandDefinition
+            "
+        accept="text/x-script.rgg"
+        name="rgg"
+        renderer="rgg"
+        request_method="GET" /> -->
+</configure>

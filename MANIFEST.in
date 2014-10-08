@@ -1,0 +1,2 @@
+include *.py *.txt *.rst *.in *.mak
+recursive-include telex_rgg *.py *.zcml *.ini
