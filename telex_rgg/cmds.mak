@@ -15,6 +15,7 @@ submitter = ${cmd_def.submitter}
 command_definition = ${resource_to_url(cmd_def)}
 % for param_def in cmd_def.parameter_definitions:
 parameters.item#${loop.index + 1}.${param_def.name} = <textfield label='${param_def.label}'/>
+parameters.item#${loop.index + 1}.__jsonclass__ = http://telex.org/relations/parameter
 % endfor
 </rgg>
 % endfor
