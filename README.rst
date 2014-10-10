@@ -1,6 +1,6 @@
-==============================================
-telex rgg - RGG templates for telex commands
-==============================================
+==================================================
+telex rgg - render telex commands as RGG templates
+==================================================
 
-Adds a resource to the telex server that allows accessing all telex
-command definitions as a `RGG http://rgg.r-forge.r-project.org`_ template.
+Adds a resource to the telex server that allows rendering telex
+command definitions as `RGG <http://rgg.r-forge.r-project.org>`_ templates.
