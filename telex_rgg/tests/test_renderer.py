@@ -13,7 +13,7 @@ import pytest
 
 from everest.resources.utils import get_root_collection
 from telex.constants import VALUE_TYPES
-from telex.interfaces import ICommandDefinition
+from telex.interfaces import IShellCommandDefinition
 import xml.etree.ElementTree as et
 
 
@@ -28,7 +28,7 @@ class TestRenderer(object):
     config_file_name = resource_filename('telex.tests', 'configure.zcml')
 
     def test_rgg_default(self):
-        coll = get_root_collection(ICommandDefinition)
+        coll = get_root_collection(IShellCommandDefinition)
         rsp = render_to_response('rgg', dict(context=coll))
         assert rsp.body.find('New telex Command Definition') != -1
         for vt in VALUE_TYPES:
@@ -106,7 +106,7 @@ class TestRenderer(object):
         pd = cmd_def_empty_entity.add_parameter_definition(*prm_def_args)
         for prm_opt_args in prm_opts_args:
             pd.add_parameter_option(*prm_opt_args)
-        coll = get_root_collection(ICommandDefinition)
+        coll = get_root_collection(IShellCommandDefinition)
         coll.create_member(cmd_def_empty_entity)
         rsp = render_to_response('rgg', dict(context=coll))
         lines = self.__extract_rgg_tag_from_response(rsp)
@@ -118,9 +118,8 @@ class TestRenderer(object):
     def __extract_rgg_tag_from_response(self, response):
         # Parse out the rgg script.
         assert not response is None
-        pat = re.compile('.*<rgg>(.+)</rgg>', flags=re.DOTALL)
-        match = pat.search(response.body)
-        assert not match is None
-        grp = match.groups()[0]
+        pat = re.compile('<rgg>(.+?)</rgg>', flags=re.DOTALL)
+        rgg_string = pat.findall(response.body)[-1]
         return [line.strip()
-                for line in grp.split(os.linesep) if not line.strip() == '']
+                for line in rgg_string.split(os.linesep)
+                if not line.strip() == '']
