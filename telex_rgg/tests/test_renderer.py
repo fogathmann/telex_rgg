@@ -30,7 +30,7 @@ class TestRenderer(object):
     def test_rgg_default(self):
         coll = get_root_collection(IShellCommandDefinition)
         rsp = render_to_response('rgg', dict(context=coll))
-        assert rsp.body.find('New telex Command Definition') != -1
+        assert rsp.body.find('New telex Shell Command Definition') != -1
         for vt in VALUE_TYPES:
             assert rsp.body.find('New %s telex Parameter Definit' % vt) != -1
 
