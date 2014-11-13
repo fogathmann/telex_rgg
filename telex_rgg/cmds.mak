@@ -1,16 +1,16 @@
 ${"#" * 80}
-${"#"} name: New telex Command Definition
+${"#"} name: New telex Shell Command Definition
 ${"#"} author: F. Oliver Gathmann
 ${"#"} category: telex
 ${"#"} preview: 
 
-Creates a new telex command definition.
+Creates a new telex shell command definition.
 
 ${"#" * 6}
 
 <rgg>
-<h2 text="New telex Command Definition"/>
-__jsonclass__ = http://telex.org/relations/command-definition
+<h2 text="New telex Shell Command Definition" span="2"/>
+__jsonclass__ = http://telex.org/relations/shell-command-definition
 name = <textfield label='Command name (unique)' size='25'/>
 label = <textfield label='Command label'/>
 executable = <textfield label='Executable to run'/>
@@ -18,6 +18,31 @@ submitter = <textfield label='Submitting user'/>
 category = <textfield label='Command category (optional)'/>
 description = <textfield label='Command description (optional)' default=''/>
 working_directory = <textfield label='Working directory to use'/>
+</rgg>
+
+${"#" * 80}
+${"#"} name: New telex REST Command Definition
+${"#"} author: F. Oliver Gathmann
+${"#"} category: telex
+${"#"} preview: 
+
+Creates a new telex REST command definition.
+
+${"#" * 6}
+
+<rgg>
+<h2 text="New telex REST Command Definition" span="2"/>
+__jsonclass__ = http://telex.org/relations/rest-command-definition
+name = <textfield label='Command name (unique)' size='25'/>
+label = <textfield label='Command label'/>
+url = <textfield label='URL to access'/>
+operation = <combobox label='REST operation' 
+                      items='GET,POST,PUT,PATCH'/>
+request_content_type = <combobox label='Request content MIME type' 
+                                 items='application/json,application/csv'/>
+submitter = <textfield label='Submitting user'/>
+category = <textfield label='Command category (optional)'/>
+description = <textfield label='Command description (optional)' default=''/>
 </rgg>
 
 % for value_type in VALUE_TYPES:
@@ -36,10 +61,10 @@ ${cmd_def.description}
 ${"#" * 6}
 
 <rgg>
-<h2 text="New ${cmd_def.name} Command"/>
-__jsonclass__ = http://telex.org/relations/command
+<h2 text="New ${cmd_def.name} ${cmd_def.get_entity().command_definition_type} Command" span="2"/>
+__jsonclass__ = http://telex.org/relations/${cmd_def.get_entity().command_definition_type.lower()}-command
 submitter = ${cmd_def.submitter}
-command_definition = ${resource_to_url(cmd_def)}
+command_definition = ${resource_to_url(cmd_def).strip()}
 % for param_def_mb in cmd_def.parameter_definitions:
 parameters.item#${loop.index + 1}.__jsonclass__ = http://telex.org/relations/parameter
 parameters.item#${loop.index + 1}.parameter_definition = ${resource_to_url(param_def_mb)}
@@ -60,7 +85,7 @@ Creates a new ${value_type} telex parameter definition.
 ${"#" * 6}
 
 <rgg>
-<h2 text="New telex ${value_type} Parameter Definition"/>
+<h2 text="New telex ${value_type} Parameter Definition" span="2"/>
 __jsonclass__ = http://telex.org/relations/parameter-definition
 name = <textfield label='Parameter name' size='30'/>
 label = <textfield label='Parameter label'/>
@@ -97,13 +122,13 @@ parameter_options.item#${loop.index + 1}.value = ${render_option_value(option_it
           items=${render_choices(param_def)}
           />
 % else:
-    % if param_def.value_type in (VALUE_TYPES.STRING, VALUE_TYPES.INT, VALUE_TYPES.DOUBLE, VALUE_TYPES.DATETIME):
+    % if param_def.value_type in (VALUE_TYPES.STRING, VALUE_TYPES.URL, VALUE_TYPES.INT, VALUE_TYPES.DOUBLE, VALUE_TYPES.DATETIME):
 <textfield label='${param_def.label}' 
            size='${param_def.get_option("entry_width", default_value=30)}'
            % if param_def.has_option('default_value'):
            default_value='${param_def.get_option("default_value")}'
            % endif
-           % if param_def.value_type not in (VALUE_TYPES.STRING, VALUE_TYPES.DATETIME):
+           % if param_def.value_type not in (VALUE_TYPES.STRING, VALUE_TYPES.URL, VALUE_TYPES.DATETIME):
            data-type='number'
            % endif
            % if param_def.value_type == VALUE_TYPES.INT:
